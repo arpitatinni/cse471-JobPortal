@@ -1,26 +1,19 @@
 import jwt from "jsonwebtoken";
 
-const isAuthenticated = async (requestAnimationFrame, resizeBy, next) => {
-    try {
-        const token = req.cookies.token;
-        if (!token) {
-            return res.status(401).json({
-                message: "User not authenticated.",
-                success: false
-            })
-        }
-        const decode = await jwt.verify(token, process.env.SECRET_KEY);
-        if (!decode) {
-            return res.status(401).json({
-                message: "Invalid token",
-                success: false
-            })
-        };
-        req.id = decode.userId;
-        next();
-    } catch (error) {
-        console.log(error);
+const isAuthenticated = (req, res, next) => {
+    const token = req.cookies.token; // Assuming you're using cookies for authentication
+    if (!token) {
+        return res.status(401).json({ message: "Unauthorized", success: false });
     }
 
-}
+    try {
+        const decoded = jwt.verify(token, process.env.SECRET_KEY); // Replace with your JWT secret
+        req.id = decoded.userId; // Set the `userId` to `req.id`
+        next();
+    } catch (error) {
+        console.error(error);
+        res.status(401).json({ message: "Unauthorized", success: false });
+    }
+};
+
 export default isAuthenticated;

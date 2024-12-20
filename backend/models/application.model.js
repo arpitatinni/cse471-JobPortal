@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-constapplicationSchema = new mongoose.Schema({
+const applicationSchema = new mongoose.Schema({
     job: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Job',   //job ar applocation er moddhe relation create

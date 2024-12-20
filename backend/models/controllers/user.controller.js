@@ -8,7 +8,7 @@ export const register = async (req, res) => {
         const { fullname, email, phoneNumber, password, role } = req.body;
 
         if (!fullname || !email || !phoneNumber || !password || !role) {
-            return res.status(400).json({ message: "Something is missing", success: false });
+            return res.status(400).json({ message: "All fields are required.", success: false });
         }
 
         const existingUser = await User.findOne({ email });
@@ -26,13 +26,13 @@ export const register = async (req, res) => {
     }
 };
 
-// User login
+//User login
 export const login = async (req, res) => {
     try {
         const { email, password, role } = req.body;
 
         if (!email || !password || !role) {
-            return res.status(400).json({ message: "Something is missing", success: false });
+            return res.status(400).json({ message: "All fields are required.", success: false });
         }
 
         const user = await User.findOne({ email });
@@ -56,33 +56,62 @@ export const login = async (req, res) => {
     }
 };
 
-// Profile update
+//logout
+
+// User Logout
+export const logout = (req, res) => {
+    try {
+        res.clearCookie("token", { httpOnly: true, sameSite: "strict" }); // Clear the token cookie
+        return res.status(200).json({
+            message: "Logout successful.",
+            success: true,
+        });
+    } catch (error) {
+        console.error("Logout error:", error);
+        res.status(500).json({
+            message: "Server error during logout.",
+            success: false,
+        });
+    }
+};
+
+
+//update profile
+
 export const updateProfile = async (req, res) => {
     try {
         const { fullname, email, phoneNumber, bio, skills } = req.body;
         const userId = req.userId; // Middleware should set req.userId
 
-        if (!fullname || !email || !phoneNumber || !bio || !skills) {
-            return res.status(400).json({ message: "Something is missing", success: false });
+        if (!userId) {
+            return res.status(401).json({ message: "User ID is missing. Authentication required.", success: false });
         }
 
-        const skillsArray = skills.split(",");
-        let user = await User.findById(userId);
+        const user = await User.findById(userId);
         if (!user) {
             return res.status(404).json({ message: "User not found.", success: false });
         }
 
-        user.fullname = fullname;
-        user.email = email;
-        user.phoneNumber = phoneNumber;
-        user.profile.bio = bio;
-        user.profile.skills = skillsArray;
+        // Parse skills if provided
+        const skillArray = skills ? skills.split(",") : undefined;
 
-        await user.save();
+        // Update user properties
+        if (fullname) user.fullname = fullname;
+        if (email) user.email = email;
+        if (phoneNumber) user.phoneNumber = phoneNumber;
+        if (bio) user.profile.bio = bio;
+        if (skills) user.profile.skills = skillArray;
 
-        res.status(200).json({ message: "Profile updated successfully.", user, success: true });
+        await user.save(); // Save updated user
+
+        res.status(200).json({
+            message: "Profile updated successfully.",
+            user,
+            success: true,
+        });
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: "Server error", success: false });
     }
 };
+
