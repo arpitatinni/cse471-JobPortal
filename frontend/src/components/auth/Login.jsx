@@ -8,6 +8,8 @@ import { Button } from '../ui/button';
 import { Link, useNavigate } from 'react-router-dom';
 import { USER_API_POINT } from '@/utils/constant';
 import { toast } from 'sonner';
+import { setUser } from '@/redux/authSlice';
+import { useDispatch } from 'react-redux';
 
 const Login = () => {
     const [input, setInput] = useState({
@@ -17,6 +19,7 @@ const Login = () => {
     });
 
     const navigate = useNavigate();
+    const dispatch = useDispatch();
 
     const changeEventHandler = (e) => {
         setInput({ ...input, [e.target.name]: e.target.value });
@@ -37,6 +40,7 @@ const Login = () => {
             console.log(res.data); // Debug response
 
             if (res.data.success) {
+                dispatch(setUser(res.data.user));
                 toast.success(res.data.message);
                 navigate('/'); // Navigate to home page on success
             } else {
@@ -75,7 +79,7 @@ const Login = () => {
                             placeholder="password"
                         />
                     </div>
-                    <div className="flex items-center justify-between">
+                    <div  className="flex items-center justify-between">
                         <RadioGroup className="flex items-center gap-4 my-5">
                             <div className="flex items-center space-x-2">
                                 <Input
