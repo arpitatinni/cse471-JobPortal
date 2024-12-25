@@ -1,3 +1,4 @@
+//for user
 import { createSlice } from "@reduxjs/toolkit";
 
 const authSlice = createSlice({
