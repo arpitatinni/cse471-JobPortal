@@ -6,43 +6,64 @@ import Jobs from './components/Jobs'
 import Browse from './components/Browse'
 import Profile from './components/Profile'
 import JobDescription from './components/JobDescription'
+import Companies from './components/admin/Companies'
+import ComapnyCreate from './components/admin/ComapnyCreate'
+import CompanySetup from './components/admin/CompanySetup'
+import AdminJobs from './components/admin/AdminJobs';
 
 const appRouter = createBrowserRouter([
   {
-    path:'/',
-    element:<Home/>
+    path: '/',
+    element: <Home />
   },
   {
-    path:'/login',
-    element:<Login/>
+    path: '/login',
+    element: <Login />
   },
   {
-    path:'/signup',
-    element:<Signup/>
+    path: '/signup',
+    element: <Signup />
   },
   {
-    path:'/jobs',
-    element:<Jobs/>
+    path: '/jobs',
+    element: <Jobs />
   },
   {
-    path:'/browse',
-    element:<Browse/>
+    path: '/browse',
+    element: <Browse />
   },
   {
-    path:'/profile',
-    element:<Profile/>
+    path: '/profile',
+    element: <Profile />
   },
   {
-    path:'/description/:id',
-    element:<JobDescription/>
-  }
+    path: '/description/:id',
+    element: <JobDescription />
+  },
+  //admin start
+  {
+    path: '/admin/companies',
+    element: <Companies />
+  },
+  {
+    path: '/admin/companies/create',
+    element: <ComapnyCreate />
+  },
+  {
+    path: '/admin/companies/:id',
+    element: <CompanySetup />
+  },
+  {
+    path: '/admin/jobs',
+    element: <AdminJobs />
+  },
 ])
 
 function App() {
 
   return (
     <>
-      <RouterProvider router = {appRouter}/>
+      <RouterProvider router={appRouter} />
     </>
   )
 }

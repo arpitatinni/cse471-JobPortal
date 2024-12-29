@@ -38,11 +38,21 @@ const Navbar = () => {
                 </div>
                 <div className='flex items-center gap-12'>
                     <ul className='flex font-medium items-center gap-5'>
-                        <li><Link to="/">Home</Link></li>
-                        <li><Link to="/jobs">Jobs</Link></li>
-                        <li><Link to="/browse">Browse</Link></li>
-                        <li>Jobs</li>
-                        <li>Browse</li>
+                        {
+                            user && user.role == 'recruiter' ? (
+                                <>
+                                    <li><Link to="/admin/companies">Companies</Link></li>
+                                    <li><Link to="/admin/jobs">Jobs</Link></li>
+                                </>
+                            ) : (
+                                <>
+                                    <li><Link to="/">Home</Link></li>
+                                    <li><Link to="/jobs">Jobs</Link></li>
+                                    <li><Link to="/browse">Browse</Link></li>
+                                </>
+                            )
+                        }
+
                     </ul>
                     {
                         !user ? (
@@ -67,12 +77,18 @@ const Navbar = () => {
                                             <h4 className='font-medium'>{user?.fullname}</h4>
                                             <p className='text-sm text-muted-foreground'>{user?.profile?.bio}</p>
                                         </div>
-                                        <div className='cursor-pointer'>
-                                            <User2Icon />
-                                            <Button className="bg-white border border-gray-200 rounded-2xl hover:bg-white"><Link to="/profile">View Profile</Link></Button>
+                                        {
+                                            user && user.role == 'student' && (
+                                                <div className='cursor-pointer'>
+                                                <User2Icon />
+                                                <Button className="bg-white border border-gray-200 rounded-2xl hover:bg-white"><Link to="/profile">View Profile</Link></Button>
+                                        </div>
+                                            )
+                                        }
+                                        
+                                        <div>
                                             <LogOut />
                                             <Button onClick={logoutHandler} variant="link">Log out</Button>
-
                                         </div>
                                     </div>
 
