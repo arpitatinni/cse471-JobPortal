@@ -5,7 +5,7 @@ import { Avatar, AvatarImage } from './ui/avatar'
 import { Badge } from './ui/badge'
 import { useNavigate } from 'react-router-dom'
 
-const Job = ({job}) => {
+const Job = ({ job }) => {
     const navigate = useNavigate();
     // const jobId = '2434123983';
 
@@ -13,7 +13,7 @@ const Job = ({job}) => {
         const createdAt = new Date(mongodbTime);
         const currentTime = new Date();
         const timeDifference = currentTime - createdAt;
-        return Math.floor(timeDifference/ (1000*24*60*60));
+        return Math.floor(timeDifference / (1000 * 24 * 60 * 60));
     }
     return (
         <div className='p-5 rounded-md shadow-xl bg-white border border-gray-100'>
@@ -23,9 +23,7 @@ const Job = ({job}) => {
             </div>
             <div className='flex items-center gap-2 my-2'>
                 <Button>
-                    <Avatar>
-                        <AvatarImage src="https://www.shutterstock.com/image-vector/circle-line-simple-design-logo-600nw-2174926871.jpg" />
-                    </Avatar>
+
                 </Button>
                 <h1 className='font-medium text-lf'>{job?.company?.name}</h1>
                 <p className='text-sm text-gray-500'>Bangladesh</p>
@@ -40,7 +38,7 @@ const Job = ({job}) => {
                 <Badge className={'text-[#7209b] font-bold'} variant='ghost'>{job?.salary} LPA</Badge>
             </div>
             <div className='flex items-center gap-4 mt-4'>
-                <Button onClick={()=> navigate(`/description/${job?._id}`)}>Details</Button>
+                <Button onClick={() => navigate(`/description/${job?._id}`)}>Details</Button>
                 <Button className="bg-[#7209b]">Save for later</Button>
             </div>
         </div>
