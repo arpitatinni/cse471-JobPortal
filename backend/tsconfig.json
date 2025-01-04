@@ -1,0 +1,24 @@
+{
+  "compilerOptions": {
+    /* Basic Options */
+    "target": "ES6",                                /* Set the JavaScript language version for emitted JavaScript. */
+    "module": "CommonJS",                           /* Specify what module code is generated. */
+    "lib": ["ES6"],                                 /* Specify library declarations compatible with ES6. */
+    "allowJs": true,                                /* Allow JavaScript files to be part of the program. */
+    "checkJs": false,                               /* Disable error reporting for JavaScript files. */
+    "outDir": "./dist",                             /* Redirect output structure to the ./dist folder. */
+    "rootDir": "./",                                /* Specify the root folder. */
+    "skipLibCheck": true,                           /* Skip type checking all .d.ts files for better performance. */
+    "strict": true,                                 /* Enable all strict type-checking options. */
+    "esModuleInterop": true,                        /* Ensure compatibility with CommonJS modules. */
+    "forceConsistentCasingInFileNames": true,       /* Ensure consistent casing in imports. */
+    "resolveJsonModule": true                       /* Enable importing JSON files. */
+  },
+  "include": [
+    "./**/*"                                        /* Include all files in the project directory. */
+  ],
+  "exclude": [
+    "node_modules",                                 /* Exclude node_modules folder. */
+    "dist"                                          /* Exclude output directory. */
+  ]
+}
