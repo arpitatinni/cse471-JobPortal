@@ -15,7 +15,7 @@ const filterData = [
   },
   {
     filterType: "Salary",
-    array: ["0-40k", "42-1lac", "1lac to 5lacs"]
+    array: ["0-40k", "42k-1lac", "1lac-5lacs"]
   },
 ]
 const FilterCard = () => {
