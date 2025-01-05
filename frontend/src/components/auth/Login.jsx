@@ -22,12 +22,17 @@ const Login = () => {
     const dispatch = useDispatch();
 
     const changeEventHandler = (e) => {
-        setInput({ ...input, [e.target.name]: e.target.value });
+        const { name, value } = e.target;
+        setInput((prevInput) => ({ ...prevInput, [name]: value }));
     };
 
     const submitHandler = async (e) => {
         e.preventDefault();
-        console.log("Form submitted!"); // Debugging step
+        console.log("Form submitted!");
+
+        if (!input.email || !input.password || !input.role) {
+            return toast.error('Please fill in all fields');
+        }
 
         try {
             const res = await axios.post(`${USER_API_POINT}/login`, input, {
@@ -37,7 +42,7 @@ const Login = () => {
                 withCredentials: true,
             });
 
-            console.log(res.data); // Debug response
+            console.log(res.data);
 
             if (res.data.success) {
                 dispatch(setUser(res.data.user));
@@ -47,7 +52,7 @@ const Login = () => {
                 toast.error(res.data.message || 'Login failed');
             }
         } catch (error) {
-            console.error(error); // Debug errors
+            console.error(error);
             toast.error(error.response?.data?.message || 'An error occurred');
         }
     };
@@ -56,33 +61,39 @@ const Login = () => {
         <div>
             <Navbar />
             <div className="flex items-center justify-center max-w-7xl mx-auto">
-                <form onSubmit={submitHandler} className="w-1/2 border border-gray-200 rounded-md p-4 my-10">
-                    <h1 className="font-bold text-xl mb-5">Login</h1>
+                <form onSubmit={submitHandler} className="w-1/2 border border-gray-200 rounded-md p-6 my-10 shadow-md">
+                    <h1 className="font-bold text-2xl mb-6">Login</h1>
 
-                    <div className="my-2">
-                        <Label>Email</Label>
+                    <div className="mb-4">
+                        <Label htmlFor="email">Email</Label>
                         <Input
+                            id="email"
                             type="email"
                             value={input.email}
                             name="email"
                             onChange={changeEventHandler}
                             placeholder="email@gmail.com"
+                            required
                         />
                     </div>
-                    <div className="my-2">
-                        <Label>Password</Label>
+                    <div className="mb-4">
+                        <Label htmlFor="password">Password</Label>
                         <Input
+                            id="password"
                             type="password"
                             value={input.password}
                             name="password"
                             onChange={changeEventHandler}
                             placeholder="password"
+                            required
                         />
                     </div>
-                    <div  className="flex items-center justify-between">
+
+                    <div className="flex items-center justify-between">
                         <RadioGroup className="flex items-center gap-4 my-5">
                             <div className="flex items-center space-x-2">
                                 <Input
+                                    id="r1"
                                     type="radio"
                                     name="role"
                                     value="student"
@@ -94,6 +105,7 @@ const Login = () => {
                             </div>
                             <div className="flex items-center space-x-2">
                                 <Input
+                                    id="r2"
                                     type="radio"
                                     name="role"
                                     value="recruiter"
@@ -105,11 +117,15 @@ const Login = () => {
                             </div>
                         </RadioGroup>
                     </div>
-                    <Button type="submit" className="w-full my-4 bg-black text-white hover:bg-gray-800">
+
+                    <Button type="submit" className="w-full my-4 bg-black text-white hover:bg-gray-800 transition">
                         Login
                     </Button>
                     <span>
-                        Don't have an account? <Link to="/signup" className="text-blue-600">Signup</Link>
+                        Don't have an account?{' '}
+                        <Link to="/signup" className="text-blue-600 hover:underline">
+                            Signup
+                        </Link>
                     </span>
                 </form>
             </div>
